@@ -38,5 +38,6 @@ private:
 
 	UTankTracks * TankTracks;
 
-	UParticleSystem* Dust;
+	UParticleSystem* RightDust;
+	UParticleSystem* LeftDust;
 };

@@ -7,6 +7,15 @@
 void UTankMovementComponent::Initialise(UTankTracks* TankTrack)
 {
 	this->TankTracks = TankTrack;
+	TArray<UParticleSystem*> ParticleSystems;
+	GetOwner()->GetComponents<UParticleSystem>(ParticleSystems);
+
+	if (ParticleSystems.Num == (int32)2)
+	{
+		// Right and left particle systems 
+		RightDust = ParticleSystems[0];
+		LeftDust = ParticleSystems[1];
+	}
 }
 
 void UTankMovementComponent::MoveToMousePosition()
@@ -32,12 +41,18 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 		
 		if (!DestinationReached)
 		{
+			Cast<USceneComponent>(RightDust)->SetVisibility(true);
+			Cast<USceneComponent>(LeftDust)->SetVisibility(true);
+
 			UE_LOG(LogTemp, Warning, TEXT("%f"), FVector::Dist2D(Destination, TankLocation))
 			TankTracks->DriveTrack();
 		}
 		else
 		{
 			Destination = NO_DESTINATION;
+
+			Cast<USceneComponent>(RightDust)->SetVisibility(false);
+			Cast<USceneComponent>(LeftDust)->SetVisibility(false);
 		}
 
 		if (!DirectionReached)
