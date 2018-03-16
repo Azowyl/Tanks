@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/NavMovementComponent.h"
 #include "TankTracks.h"
+#include "Runtime/Engine/Classes/Particles/ParticleSystem.h"
 #include "TankMovementComponent.generated.h"
 
 #define NO_DESTINATION FVector::ZeroVector
@@ -33,7 +34,9 @@ private:
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
 	UPROPERTY(EditDefaultsonly)
-	float DestinationTolerance = 0.3f;
+	float DestinationTolerance = 0.5f;
 
 	UTankTracks * TankTracks;
+
+	UParticleSystem* Dust;
 };

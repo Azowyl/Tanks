@@ -14,6 +14,7 @@ void UTankMovementComponent::MoveToMousePosition()
 	FHitResult hitResult;
 	GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, hitResult);
 	Destination = hitResult.Location;
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *Destination.ToString())
 	DirectionWhereToGo =  (Destination - GetOwner()->GetRootComponent()->GetComponentLocation()).GetSafeNormal();
 }
 
@@ -22,13 +23,16 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 	if (!Destination.Equals(NO_DESTINATION))
 	{
 		auto TankRoot = GetOwner()->GetRootComponent();
+
 		auto DeltaRotator = TankRoot->GetForwardVector().Rotation() - DirectionWhereToGo.Rotation();
-		UE_LOG(LogTemp, Warning, TEXT("%f"), DeltaRotator.Yaw)
-		bool DirectionReached = FMath::IsNearlyEqual(DeltaRotator.Yaw, 0, 10.0f);
-		bool DestinationReached = FVector::Distance(Destination, TankRoot->GetComponentLocation()) < DestinationTolerance;
+		bool DirectionReached = FMath::IsNearlyEqual(FMath::Abs(DeltaRotator.Yaw), 0, 0.5f);
+
+		FVector TankLocation = TankRoot->GetComponentLocation();
+		bool DestinationReached = FVector::Dist2D(Destination, TankLocation) < DestinationTolerance;
 		
 		if (!DestinationReached)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("%f"), FVector::Dist2D(Destination, TankLocation))
 			TankTracks->DriveTrack();
 		}
 		else
@@ -38,15 +42,14 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 		if (!DirectionReached)
 		{
-			if (DeltaRotator.Yaw > 0)
+			if (DeltaRotator.Yaw < 0)
 			{
-				TankTracks->TurnLeft();
+				TankTracks->Turn(Direction::Right);
 			}
 			else
 			{
-				TankTracks->TurnRight();
+				TankTracks->Turn(Direction::Left);
 			}
-			DirectionWhereToGo = (Destination - GetOwner()->GetRootComponent()->GetComponentLocation()).GetSafeNormal();
 		}
 	}
 }

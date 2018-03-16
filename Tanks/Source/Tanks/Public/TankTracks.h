@@ -6,6 +6,12 @@
 #include "Components/StaticMeshComponent.h"
 #include "TankTracks.generated.h"
 
+UENUM()
+enum class Direction 
+{
+	Right ,
+	Left
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class TANKS_API UTankTracks : public UStaticMeshComponent
@@ -18,9 +24,7 @@ public:
 
 	void DriveTrack();
 
-	void TurnRight();
-
-	void TurnLeft();
+	void Turn(Direction Direction);
 
 protected:
 	// Called when the game starts
@@ -28,7 +32,11 @@ protected:
 
 private:
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
-	float MaxForce = 40000000;
+	float MaxForce = 400000000;
+
+	// Degrees per second used when turn
+	UPROPERTY(EditDefaultsonly, Category = "Setup")
+	float DegreesPerSecond = 100.0f;
 
 	void ApplyForcesOnTracks(FVector RightTrackForce, FVector LeftTrackForce);
 

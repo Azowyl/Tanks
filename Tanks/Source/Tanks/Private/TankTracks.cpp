@@ -25,22 +25,24 @@ void UTankTracks::DriveTrack()
 	ApplyForcesOnTracks(ForceApplied, ForceApplied);
 }
 
-void UTankTracks::TurnRight()
+void UTankTracks::Turn(Direction Direction)
 {
-	auto ForceApplied = CalculateForceToApply() * 2;
-	ApplyForcesOnTracks(ForceApplied, -ForceApplied);
-}
+	auto RootTank = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	auto AzimuthChange = DegreesPerSecond * GetWorld()->GetDeltaSeconds();
+	auto YawNewRotation = RelativeRotation.Yaw + AzimuthChange;
 
-void UTankTracks::TurnLeft()
-{
-	auto ForceApplied = CalculateForceToApply() * 2;
-	ApplyForcesOnTracks(-ForceApplied, ForceApplied);
+	if (Direction == Direction::Left)
+	{
+		YawNewRotation = YawNewRotation * -1;
+	}
+
+	RootTank->AddLocalRotation(FRotator(0, YawNewRotation, 0));
 }
 
 void UTankTracks::ApplyForcesOnTracks(FVector RightTrackForce, FVector LeftTrackForce)
 {
 	auto RootTank = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
-
+	
 	RootTank->AddForceAtLocation(RightTrackForce, GetSocketLocation(FName("RightTrack")));
 	RootTank->AddForceAtLocation(LeftTrackForce, GetSocketLocation(FName("LeftTrack")));
 	AddSideWaysForce();
@@ -51,8 +53,8 @@ void UTankTracks::AddSideWaysForce()
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 	auto CorrectionAcceleration = -SlippageSpeed / GetWorld()->GetDeltaSeconds() * GetRightVector();
 
-	auto TankRoot = Cast<UStaticMeshComponent>(GetOwner()->GetRootComponent());
-	auto CorrectionForce = (TankRoot->GetMass() * CorrectionAcceleration);
+	auto RootTank = Cast<UPrimitiveComponent>(GetOwner()->GetRootComponent());
+	auto CorrectionForce = (RootTank->GetMass() * CorrectionAcceleration);
 
 	this->AddForce(CorrectionForce);
 }
