@@ -7,15 +7,6 @@
 void UTankMovementComponent::Initialise(UTankTracks* TankTrack)
 {
 	this->TankTracks = TankTrack;
-	TArray<UParticleSystem*> ParticleSystems;
-	GetOwner()->GetComponents<UParticleSystem>(ParticleSystems);
-
-	if (ParticleSystems.Num == (int32)2)
-	{
-		// Right and left particle systems 
-		RightDust = ParticleSystems[0];
-		LeftDust = ParticleSystems[1];
-	}
 }
 
 void UTankMovementComponent::MoveToMousePosition()
@@ -29,6 +20,13 @@ void UTankMovementComponent::MoveToMousePosition()
 
 void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	Move();
+}
+
+void UTankMovementComponent::Move()
+{
 	if (!Destination.Equals(NO_DESTINATION))
 	{
 		auto TankRoot = GetOwner()->GetRootComponent();
@@ -38,21 +36,17 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 		FVector TankLocation = TankRoot->GetComponentLocation();
 		bool DestinationReached = FVector::Dist2D(Destination, TankLocation) < DestinationTolerance;
-		
+
 		if (!DestinationReached)
 		{
-			Cast<USceneComponent>(RightDust)->SetVisibility(true);
-			Cast<USceneComponent>(LeftDust)->SetVisibility(true);
-
+			IsTankMoving = true;
 			UE_LOG(LogTemp, Warning, TEXT("%f"), FVector::Dist2D(Destination, TankLocation))
-			TankTracks->DriveTrack();
+				TankTracks->DriveTrack();
 		}
 		else
 		{
 			Destination = NO_DESTINATION;
-
-			Cast<USceneComponent>(RightDust)->SetVisibility(false);
-			Cast<USceneComponent>(LeftDust)->SetVisibility(false);
+			IsTankMoving = false;
 		}
 
 		if (!DirectionReached)
@@ -67,6 +61,11 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 			}
 		}
 	}
+}
+
+bool UTankMovementComponent::IsMoving() const
+{
+	return IsTankMoving;
 }
 
 

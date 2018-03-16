@@ -28,6 +28,9 @@ public:
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UFUNCTION(BlueprintCallable)
+	bool IsMoving() const;
+
 private:
 	FVector Destination = NO_DESTINATION;
 	FVector DirectionWhereToGo = FVector::ZeroVector;
@@ -37,7 +40,8 @@ private:
 	float DestinationTolerance = 0.5f;
 
 	UTankTracks * TankTracks;
+	
+	bool IsTankMoving = false;
 
-	UParticleSystem* RightDust;
-	UParticleSystem* LeftDust;
+	void Move();
 };
