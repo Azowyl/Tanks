@@ -30,7 +30,7 @@ void UTankMovementComponent::Move()
 		auto TankRoot = GetOwner()->GetRootComponent();
 
 		auto DeltaRotator = TankRoot->GetForwardVector().Rotation() - DirectionWhereToGo.Rotation();
-		bool DirectionReached = FMath::IsNearlyEqual(FMath::Abs(DeltaRotator.Yaw), 0, 0.5f);
+		bool DirectionReached = FMath::IsNearlyEqual(FMath::Abs(DeltaRotator.Yaw), 0, DirectionReachedTolerance);
 
 		FVector TankLocation = TankRoot->GetComponentLocation();
 		bool DestinationReached = FVector::Dist2D(Destination, TankLocation) < DestinationTolerance;
@@ -62,7 +62,7 @@ bool UTankMovementComponent::IsMoving() const
 {
 	auto Velocity2d = GetOwner()->GetRootComponent()->GetComponentVelocity();
 	Velocity2d.Z = 0;
-	return !Velocity2d.IsNearlyZero(IsMovingTolerance);
+	return !Velocity2d.IsNearlyZero(MoveTolerance);
 }
 
 

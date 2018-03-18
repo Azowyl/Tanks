@@ -41,8 +41,12 @@ private:
 
 	UTankTracks * TankTracks;
 
+	// the tank is not moving if velocity is +- this value
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
-	float IsMovingTolerance = 1;
+	float MoveTolerance = 1;
+
+	UPROPERTY(EditDefaultsonly, Category = "Setup")
+	float DirectionReachedTolerance = 1;
 
 	void Move();
 };
