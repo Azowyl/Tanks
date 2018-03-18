@@ -11,11 +11,20 @@ ATank::ATank()
 
 }
 
+void ATank::Fire()
+{
+	auto Location = Barrel->GetSocketLocation(FName("Projectile"));
+	auto Rotation = Barrel->GetSocketRotation(FName("Projectile"));
+
+	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation);
+}
+
 // Called when the game starts or when spawned
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	Barrel = FindComponentByClass<UTankBarrel>();
 }
 
 // Called every frame
