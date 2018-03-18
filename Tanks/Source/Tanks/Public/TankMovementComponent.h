@@ -40,8 +40,9 @@ private:
 	float DestinationTolerance = 0.5f;
 
 	UTankTracks * TankTracks;
-	
-	bool IsTankMoving = false;
+
+	UPROPERTY(EditDefaultsonly, Category = "Setup")
+	float IsMovingTolerance = 1;
 
 	void Move();
 };

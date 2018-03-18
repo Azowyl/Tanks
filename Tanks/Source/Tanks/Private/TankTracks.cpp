@@ -17,12 +17,12 @@ UTankTracks::UTankTracks()
 void UTankTracks::BeginPlay()
 {
 	Super::BeginPlay();
+	OnComponentHit.AddDynamic(this, &UTankTracks::OnHit);
 }
 
 void UTankTracks::DriveTrack()
 {
-	auto ForceApplied = CalculateForceToApply();
-	ApplyForcesOnTracks(ForceApplied, ForceApplied);
+	CurrentThrottle = 1;
 }
 
 void UTankTracks::Turn(Direction Direction)
@@ -37,6 +37,13 @@ void UTankTracks::Turn(Direction Direction)
 	}
 
 	RootTank->AddLocalRotation(FRotator(0, YawNewRotation, 0));
+}
+
+void UTankTracks::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
+{
+	auto ForceApplied = CalculateForceToApply() * CurrentThrottle;
+	ApplyForcesOnTracks(ForceApplied, ForceApplied);
+	CurrentThrottle = 0;
 }
 
 void UTankTracks::ApplyForcesOnTracks(FVector RightTrackForce, FVector LeftTrackForce)

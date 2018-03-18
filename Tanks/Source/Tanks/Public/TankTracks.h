@@ -38,9 +38,14 @@ private:
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
 	float DegreesPerSecond = 100.0f;
 
+	float CurrentThrottle = 0;
+
 	void ApplyForcesOnTracks(FVector RightTrackForce, FVector LeftTrackForce);
 
 	void AddSideWaysForce();
 
 	FVector CalculateForceToApply();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 };

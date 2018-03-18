@@ -14,14 +14,12 @@ void UTankMovementComponent::MoveToMousePosition()
 	FHitResult hitResult;
 	GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, hitResult);
 	Destination = hitResult.Location;
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *Destination.ToString())
 	DirectionWhereToGo =  (Destination - GetOwner()->GetRootComponent()->GetComponentLocation()).GetSafeNormal();
 }
 
 void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	Move();
 }
 
@@ -39,14 +37,11 @@ void UTankMovementComponent::Move()
 
 		if (!DestinationReached)
 		{
-			IsTankMoving = true;
-			UE_LOG(LogTemp, Warning, TEXT("%f"), FVector::Dist2D(Destination, TankLocation))
-				TankTracks->DriveTrack();
+			TankTracks->DriveTrack();
 		}
 		else
 		{
 			Destination = NO_DESTINATION;
-			IsTankMoving = false;
 		}
 
 		if (!DirectionReached)
@@ -65,7 +60,9 @@ void UTankMovementComponent::Move()
 
 bool UTankMovementComponent::IsMoving() const
 {
-	return IsTankMoving;
+	auto Velocity2d = GetOwner()->GetRootComponent()->GetComponentVelocity();
+	Velocity2d.Z = 0;
+	return !Velocity2d.IsNearlyZero(IsMovingTolerance);
 }
 
 
