@@ -32,11 +32,11 @@ protected:
 
 private:
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
-	float MaxForce = 400000000;
+	float MaxForce = 200000000;
 
 	// Degrees per second used when turn
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
-	float DegreesPerSecond = 100.0f;
+	float DegreesPerSecond = 150;
 
 	float CurrentThrottle = 0;
 
