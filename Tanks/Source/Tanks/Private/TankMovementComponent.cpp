@@ -58,6 +58,12 @@ void UTankMovementComponent::Move()
 	}
 }
 
+void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
+{
+	Destination = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	DirectionWhereToGo = (Destination - GetOwner()->GetRootComponent()->GetComponentLocation()).GetSafeNormal();
+}
+
 bool UTankMovementComponent::IsMoving() const
 {
 	auto Velocity2d = GetOwner()->GetRootComponent()->GetComponentVelocity();

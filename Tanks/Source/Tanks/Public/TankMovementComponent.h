@@ -49,4 +49,7 @@ private:
 	float DirectionReachedTolerance = 1;
 
 	void Move();
+
+	// Called from the pathfinding logic by the AI controllers
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 };
