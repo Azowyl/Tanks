@@ -71,4 +71,9 @@ bool UTankMovementComponent::IsMoving() const
 	return !Velocity2d.IsNearlyZero(MoveTolerance);
 }
 
+bool UTankMovementComponent::IsCloseToDestination() const
+{
+	return FVector::Dist2D(Destination, GetOwner()->GetRootComponent()->GetComponentLocation()) < CloseToDestinationTolerance;
+}
+
 

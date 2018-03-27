@@ -39,6 +39,11 @@ void UTankTracks::Turn(Direction Direction)
 	RootTank->AddLocalRotation(FRotator(0, YawNewRotation, 0));
 }
 
+bool UTankTracks::IsAccelerating() const
+{
+	return CurrentThrottle != 0;
+}
+
 void UTankTracks::OnHit(UPrimitiveComponent * HitComponent, AActor * OtherActor, UPrimitiveComponent * OtherComponent, FVector NormalImpulse, const FHitResult & Hit)
 {
 	auto ForceApplied = CalculateForceToApply() * CurrentThrottle;

@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsMoving() const;
 
+	UFUNCTION(BlueprintCallable)
+	bool IsCloseToDestination() const;
+
 private:
 	FVector Destination = NO_DESTINATION;
 	FVector DirectionWhereToGo = FVector::ZeroVector;
@@ -47,6 +50,10 @@ private:
 
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
 	float DirectionReachedTolerance = 1;
+
+	// defines the distance at wich the tank is close to destination
+	UPROPERTY(EditDefaultsonly, Category = "Setup")
+	float CloseToDestinationTolerance = 1000; 
 
 	void Move();
 
