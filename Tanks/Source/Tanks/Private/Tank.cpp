@@ -17,6 +17,10 @@ void ATank::Fire()
 	auto Rotation = Barrel->GetSocketRotation(FName("Projectile"));
 
 	auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Location, Rotation);
+	if (Projectile)
+	{
+		Projectile->LaunchProjectile();
+	}
 }
 
 // Called when the game starts or when spawned
