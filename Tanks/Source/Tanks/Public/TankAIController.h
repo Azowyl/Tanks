@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "TankMovementComponent.h"
+#include "Tank.h"
 #include "TankAIController.generated.h"
 
 /**
@@ -17,7 +19,13 @@ class TANKS_API ATankAIController : public AAIController
 public:
 	virtual void Tick(float DeltaSeconds) override;
 	
+	void BeginPlay() override;
+
 private:
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
 	float AcceptanceRadius = 10000;
+
+	UTankMovementComponent* TankMovementComponent = nullptr;
+
+	ATank* ControlledTank = nullptr;
 };

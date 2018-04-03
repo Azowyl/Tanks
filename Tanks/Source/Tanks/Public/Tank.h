@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -19,6 +20,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,4 +39,12 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
 
 	UTankBarrel* Barrel = nullptr;
+
+	UPROPERTY(EditDefaultsonly, Category = Setup)
+	float ShootCooldown = 3; // seconds
+
+	float LastShootTime;
+
+	UPROPERTY(EditDefaultsonly, Category = Setup)
+	USoundBase* ShootingExplosion;
 };

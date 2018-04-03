@@ -22,7 +22,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Initialise(UTankTracks* TankTrack);
 
-	// Moves to a position in 3d world space
 	UFUNCTION(BlueprintCallable)
 	void MoveToMousePosition();
 
@@ -34,9 +33,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsCloseToDestination() const;
 
+	void LookInDirection(FVector position);
+
 private:
 	FVector Destination = NO_DESTINATION;
-	FVector DirectionWhereToGo = FVector::ZeroVector;
+	FVector FacingDirection = FVector::ZeroVector;
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
 	UPROPERTY(EditDefaultsonly)
@@ -55,6 +56,7 @@ private:
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
 	float CloseToDestinationTolerance = 1000; 
 
+	// Moves to Destination
 	void Move();
 
 	// Called from the pathfinding logic by the AI controllers

@@ -13,6 +13,8 @@ ATank::ATank()
 
 void ATank::Fire()
 {
+	if ((GetWorld()->GetTimeSeconds() - LastShootTime) < ShootCooldown) { return; }
+
 	auto Location = Barrel->GetSocketLocation(FName("Projectile"));
 	auto Rotation = Barrel->GetSocketRotation(FName("Projectile"));
 
@@ -20,7 +22,15 @@ void ATank::Fire()
 	if (Projectile)
 	{
 		Projectile->LaunchProjectile();
+		UGameplayStatics::PlaySoundAtLocation(this, ShootingExplosion, GetActorLocation());
 	}
+
+	LastShootTime = GetWorld()->GetTimeSeconds();
+}
+
+float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
+{
+	return 0.0f;
 }
 
 // Called when the game starts or when spawned

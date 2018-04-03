@@ -7,6 +7,7 @@
 #include "Runtime/Engine/Classes/GameFramework/ProjectileMovementComponent.h"
 #include "Runtime/Engine/Classes/PhysicsEngine/RadialForceComponent.h"
 #include "Runtime/Engine/Classes/Particles/ParticleSystemComponent.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Projectile.generated.h"
 
 UCLASS()
@@ -47,7 +48,7 @@ private:
 	float Damage = 20;
 
 	UPROPERTY(EditDefaultsonly)
-	float DestroyDelay = 10.0;
+	float DestroyDelay = 5.0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	float Speed = 500;
