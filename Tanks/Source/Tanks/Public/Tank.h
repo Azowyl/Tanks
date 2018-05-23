@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsMoving();
 
+	UFUNCTION(BlueprintCallable)
+	bool IsAccelerating() const;
+
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
 protected:

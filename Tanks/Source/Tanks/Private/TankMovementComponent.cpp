@@ -60,11 +60,6 @@ bool UTankMovementComponent::IsMoving() const
 	return !Velocity2d.IsNearlyZero(MoveTolerance);
 }
 
-bool UTankMovementComponent::IsCloseToDestination() const
-{
-	return FVector::Dist2D(Destination, GetOwner()->GetRootComponent()->GetComponentLocation()) < CloseToDestinationTolerance;
-}
-
 void UTankMovementComponent::LookInDirection(FVector Direction)
 {
 	auto FromRotation = GetOwner()->GetRootComponent()->GetForwardVector().Rotation().Yaw;
@@ -95,6 +90,11 @@ void UTankMovementComponent::LookInDirection(FVector Direction)
 			TankTracks->Turn(Direction::Left);
 		}
 	}
+}
+
+bool UTankMovementComponent::IsAccelerating() const
+{
+	return TankTracks->IsAccelerating();
 }
 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) {

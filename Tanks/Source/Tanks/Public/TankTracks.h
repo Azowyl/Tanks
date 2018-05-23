@@ -26,7 +26,6 @@ public:
 
 	void Turn(Direction Direction);
 
-	UFUNCTION(BlueprintCallable)
 	bool IsAccelerating() const;
 
 protected:

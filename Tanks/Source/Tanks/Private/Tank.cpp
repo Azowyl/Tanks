@@ -67,6 +67,11 @@ bool ATank::IsMoving()
 	return MovementComponent->IsMoving();
 }
 
+bool ATank::IsAccelerating() const
+{
+	return MovementComponent->IsAccelerating();
+}
+
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
 	return 0.0f;

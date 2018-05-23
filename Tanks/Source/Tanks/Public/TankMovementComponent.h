@@ -19,21 +19,17 @@ class TANKS_API UTankMovementComponent : public UNavMovementComponent
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable)
 	void Initialise(UTankTracks* TankTrack);
 
-	UFUNCTION(BlueprintCallable)
 	void MoveToMousePosition();
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UFUNCTION(BlueprintCallable)
 	bool IsMoving() const;
 
-	UFUNCTION(BlueprintCallable)
-	bool IsCloseToDestination() const;
-
 	void LookInDirection(FVector Direction);
+
+	bool IsAccelerating() const;
 
 private:
 	FVector Destination = NO_DESTINATION;
@@ -51,10 +47,6 @@ private:
 
 	UPROPERTY(EditDefaultsonly, Category = "Setup")
 	float DirectionReachedTolerance = 1;
-
-	// defines the distance at wich the tank is close to destination
-	UPROPERTY(EditDefaultsonly, Category = "Setup")
-	float CloseToDestinationTolerance = 1000; 
 
 	// Moves to Destination
 	void Move();
