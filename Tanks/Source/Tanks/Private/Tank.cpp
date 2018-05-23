@@ -2,13 +2,38 @@
 
 #include "Tank.h"
 
+// Called when the game starts or when spawned
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+
+	Barrel = FindComponentByClass<UTankBarrel>();
+	
+	if (MovementComponent) {
+		MovementComponent->Initialise(FindComponentByClass<UTankTracks>());
+	}
+}
+
+// Called every frame
+void ATank::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+// Called to bind functionality to input
+void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+}
 
 // Sets default values
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	MovementComponent = CreateDefaultSubobject<UTankMovementComponent>(FName("Tank Movement"));
 }
 
 void ATank::Fire()
@@ -28,30 +53,21 @@ void ATank::Fire()
 	LastShootTime = GetWorld()->GetTimeSeconds();
 }
 
+void ATank::MoveToInputPosition()
+{
+	if (MovementComponent) {
+		MovementComponent->MoveToMousePosition();
+	}
+}
+
+bool ATank::IsMoving()
+{
+	if (!MovementComponent) { return false; }
+
+	return MovementComponent->IsMoving();
+}
+
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
 	return 0.0f;
 }
-
-// Called when the game starts or when spawned
-void ATank::BeginPlay()
-{
-	Super::BeginPlay();
-	
-	Barrel = FindComponentByClass<UTankBarrel>();
-}
-
-// Called every frame
-void ATank::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
-void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-}
-

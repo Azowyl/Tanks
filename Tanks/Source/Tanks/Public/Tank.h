@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "Projectile.h"
 #include "TankBarrel.h"
+#include "TankMovementComponent.h"
 #include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Tank.generated.h"
 
@@ -20,6 +21,12 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Fire();
+
+	UFUNCTION(BlueprintCallable)
+	void MoveToInputPosition();
+
+	UFUNCTION(BlueprintCallable)
+	bool IsMoving();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
@@ -39,6 +46,9 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint = nullptr;
 
 	UTankBarrel* Barrel = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Components")
+	UTankMovementComponent* MovementComponent = nullptr;
 
 	UPROPERTY(EditDefaultsonly, Category = Setup)
 	float ShootCooldown = 3; // seconds

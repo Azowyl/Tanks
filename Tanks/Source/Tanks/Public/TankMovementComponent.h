@@ -33,11 +33,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsCloseToDestination() const;
 
-	void LookInDirection(FVector position);
+	void LookInDirection(FVector Direction);
 
 private:
 	FVector Destination = NO_DESTINATION;
-	FVector FacingDirection = FVector::ZeroVector;
+	FVector DirectionToFace = FVector::ZeroVector;
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
 	UPROPERTY(EditDefaultsonly)
