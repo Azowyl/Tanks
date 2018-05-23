@@ -23,7 +23,7 @@ public:
 	void Fire();
 
 	UFUNCTION(BlueprintCallable)
-	void MoveToInputPosition();
+	void MoveToInputPosition(bool IsForward);
 
 	UFUNCTION(BlueprintCallable)
 	bool IsMoving();

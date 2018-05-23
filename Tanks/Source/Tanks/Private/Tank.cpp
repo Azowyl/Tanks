@@ -25,7 +25,6 @@ void ATank::Tick(float DeltaTime)
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 // Sets default values
@@ -53,10 +52,10 @@ void ATank::Fire()
 	LastShootTime = GetWorld()->GetTimeSeconds();
 }
 
-void ATank::MoveToInputPosition()
+void ATank::MoveToInputPosition(bool IsForward)
 {
 	if (MovementComponent) {
-		MovementComponent->MoveToMousePosition();
+		MovementComponent->MoveToMousePosition(IsForward);
 	}
 }
 

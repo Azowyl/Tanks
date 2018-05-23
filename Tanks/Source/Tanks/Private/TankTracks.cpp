@@ -21,9 +21,16 @@ void UTankTracks::BeginPlay()
 	OnComponentHit.AddDynamic(this, &UTankTracks::OnHit);
 }
 
-void UTankTracks::DriveTrack()
+void UTankTracks::DriveTrack(bool MoveForward)
 {
-	CurrentThrottle = 1;
+	if (MoveForward) 
+	{
+		CurrentThrottle = 1;
+	}
+	else
+	{
+		CurrentThrottle = -1;
+	}
 }
 
 void UTankTracks::Turn(Direction Direction)

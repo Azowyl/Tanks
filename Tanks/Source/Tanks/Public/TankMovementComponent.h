@@ -21,7 +21,7 @@ class TANKS_API UTankMovementComponent : public UNavMovementComponent
 public:
 	void Initialise(UTankTracks* TankTrack);
 
-	void MoveToMousePosition();
+	void MoveToMousePosition(bool MoveForward);
 
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -34,6 +34,8 @@ public:
 private:
 	FVector Destination = NO_DESTINATION;
 	FVector DirectionToFace = FVector::ZeroVector;
+
+	bool bMustMoveForward;
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
 	UPROPERTY(EditDefaultsonly)

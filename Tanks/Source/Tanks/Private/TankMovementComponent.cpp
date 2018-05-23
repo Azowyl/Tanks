@@ -11,12 +11,14 @@ void UTankMovementComponent::Initialise(UTankTracks* TankTrack)
 	this->TankTracks = TankTrack;
 }
 
-void UTankMovementComponent::MoveToMousePosition()
+void UTankMovementComponent::MoveToMousePosition(bool MoveForward)
 {
 	FHitResult hitResult;
 	GetWorld()->GetFirstPlayerController()->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, hitResult);
 	Destination = hitResult.Location;
 	DirectionToFace = (Destination - GetOwner()->GetRootComponent()->GetComponentLocation()).GetSafeNormal();
+
+	bMustMoveForward = MoveForward;
 }
 
 void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
@@ -30,7 +32,14 @@ void UTankMovementComponent::TickComponent(float DeltaTime, ELevelTick TickType,
 
 	if (!DirectionToFace.Equals(FVector::ZeroVector))
 	{
-		LookInDirection(DirectionToFace);
+		if (!bMustMoveForward)
+		{
+			LookInDirection(-1 * DirectionToFace);
+		}
+		else
+		{
+			LookInDirection(DirectionToFace);
+		}
 	}
 }
 
@@ -45,7 +54,7 @@ void UTankMovementComponent::Move()
 
 	if (!DestinationReached)
 	{
-		TankTracks->DriveTrack();
+		TankTracks->DriveTrack(bMustMoveForward);
 	}
 	else
 	{

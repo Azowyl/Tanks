@@ -22,7 +22,7 @@ public:
 	// Sets default values for this component's properties
 	UTankTracks();
 
-	void DriveTrack();
+	void DriveTrack(bool MoveForward);
 
 	void Turn(Direction Direction);
 
