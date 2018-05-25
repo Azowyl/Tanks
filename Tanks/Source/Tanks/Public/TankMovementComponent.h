@@ -35,7 +35,7 @@ private:
 	FVector Destination = NO_DESTINATION;
 	FVector DirectionToFace = FVector::ZeroVector;
 
-	bool bMustMoveForward;
+	bool bMustMoveForward = true;
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
 	UPROPERTY(EditDefaultsonly)

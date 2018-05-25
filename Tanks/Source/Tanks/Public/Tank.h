@@ -31,6 +31,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsAccelerating() const;
 
+	UFUNCTION(BlueprintCallable)
+	float GetCurrentHealthAsPercentage() const;
+
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
 protected:
@@ -60,4 +63,9 @@ private:
 
 	UPROPERTY(EditDefaultsonly, Category = Setup)
 	USoundBase* ShootingExplosion;
+
+	UPROPERTY(EditDefaultsonly, Category = Setup)
+	float InitialHealth = 100;
+
+	float CurrentHealth = InitialHealth;
 };
