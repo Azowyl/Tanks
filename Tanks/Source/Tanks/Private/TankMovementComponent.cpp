@@ -3,6 +3,7 @@
 #include "TankMovementComponent.h"
 #include "Runtime/Engine/Classes/AI/Navigation/NavigationSystem.h"
 #include "DrawDebugHelpers.h"
+#include "Runtime/Engine/Classes/Kismet/GameplayStatics.h"
 #include "Runtime/Engine/Classes/Kismet/KismetMathLibrary.h"
 
 

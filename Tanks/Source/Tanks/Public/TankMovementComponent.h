@@ -30,7 +30,7 @@ public:
 	void LookInDirection(FVector Direction);
 
 	bool IsAccelerating() const;
-
+	
 private:
 	FVector Destination = NO_DESTINATION;
 	FVector DirectionToFace = FVector::ZeroVector;
@@ -38,8 +38,8 @@ private:
 	bool bMustMoveForward = true;
 
 	// when the distance between current location and destination is less than this variable, destination is concidered reached
-	UPROPERTY(EditDefaultsonly)
-	float DestinationTolerance = 0.5f;
+	UPROPERTY(EditAnywhere)
+	float DestinationTolerance = 10.0f;
 
 	UTankTracks * TankTracks;
 
