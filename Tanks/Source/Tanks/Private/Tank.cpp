@@ -73,8 +73,15 @@ bool ATank::IsAccelerating() const
 
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor * DamageCauser)
 {
-	CurrentHealth -= DamageAmount;
-	return CurrentHealth;
+	float DamageToApply = FMath::Clamp<float>(DamageAmount, 0, CurrentHealth);
+	CurrentHealth -= DamageToApply;
+
+	if (CurrentHealth <= 0)
+	{
+		OnDeath();
+	}
+
+	return DamageToApply;
 }
 
 float ATank::GetCurrentHealthAsPercentage() const

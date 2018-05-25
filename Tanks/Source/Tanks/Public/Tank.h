@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	float GetCurrentHealthAsPercentage() const;
 
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void OnDeath();
+
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const & DamageEvent, class AController * EventInstigator, AActor * DamageCauser) override;
 
 protected:
